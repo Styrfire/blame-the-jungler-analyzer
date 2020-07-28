@@ -28,7 +28,7 @@ repositories {
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-dependencies 
+dependencies
 {
 	compile fileTree(dir: 'lib', include: '*.jar')
 
@@ -40,9 +40,7 @@ dependencies
 	compile "org.springframework.boot:spring-boot-actuator:${springBootVersion}"
 	compile "org.springframework.boot:spring-boot-starter:${springBootVersion}"
 	compile "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
-	compile "org.springframework.boot:spring-boot-starter-jdbc:${springBootVersion}"
 	compile "org.springframework.boot:spring-boot-starter-tomcat:${springBootVersion}"
-	compile "org.xerial:sqlite-jdbc:3.21.0" // sqlite db driver
 }
 
 wrapper {

@@ -1,0 +1,5 @@
+#400 = draft pick
+#420 = ranked solo
+queue: 420
+
+logging.level.root: INFO #DEBUG
