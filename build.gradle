@@ -41,6 +41,11 @@ dependencies
 	compile "org.springframework.boot:spring-boot-starter:${springBootVersion}"
 	compile "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
 	compile "org.springframework.boot:spring-boot-starter-tomcat:${springBootVersion}"
+
+	testCompile "junit:junit:4.12"
+	testCompile "org.easymock:easymock:3.2"
+	testCompile "org.powermock:powermock:1.5.6"
+	testCompile "org.spockframework:spock-core:1.0-groovy-2.4" //tied to groovy 2.4.5
 }
 
 wrapper {
