@@ -46,7 +46,7 @@ public class TeamMatchRetriever
 						// if timestamp is older than the timestamp given, break
 						if (matchList.getMatches().get(j).getTimestamp() < earliestTimeStampForGame)
 						{
-							logger.info("Hit timestamp older than the earliest time. Breaking loop." +
+							logger.debug("Hit timestamp older than the earliest time. Breaking loop." +
 									"\nmatchList.getMatches().get(j).getTimestamp() = " + matchList.getMatches().get(j).getTimestamp());
 							loop = false;
 							break;
@@ -60,13 +60,12 @@ public class TeamMatchRetriever
 								logger.debug("index: " + j + " was a ranked game!");
 							else if (queue == 440)
 								logger.debug("index: " + j + " was a ranked flex game!");
+							else if (queue == 700)
+								logger.debug("index: " + j + " was a clash game!");
 
 							match = api.getMatchByMatchId(matchList.getMatches().get(j).getGameId());
 
-							List<Participant> participants = match.getParticipants();
-							List<ParticipantIdentity> participantIdentities = match.getParticipantIdentities();
-
-							if (allTeammatesPresentOnSameTeam(playerNames, participants, participantIdentities))
+							if (allTeammatesPresentOnSameTeam(playerNames, match))
 							{
 								logger.info("Found team game for match id: " + matchList.getMatches().get(j).getGameId());
 								matches.add(api.getMatchByMatchId(matchList.getMatches().get(j).getGameId()));
@@ -93,10 +92,11 @@ public class TeamMatchRetriever
 			return null;
 		}
 
+		logger.info(matches.size() + " matches found!");
 		return matches;
 	}
 
-	private static boolean allTeammatesPresentOnSameTeam(String[] playerNames, List<Participant> participants, List<ParticipantIdentity> participantIdentities)
+	private static boolean allTeammatesPresentOnSameTeam(String[] playerNames, Match match)
 	{
 		int teamId = 0;
 		boolean playerTeamFound = false;
@@ -105,13 +105,13 @@ public class TeamMatchRetriever
 		// loop through each team name and make sure they all exist on the same team
 		for (String playerName : playerNames)
 		{
-			for (ParticipantIdentity participantIdentity : participantIdentities)
+			for (ParticipantIdentity participantIdentity : match.getParticipantIdentities())
 			{
 				if (participantIdentity.getPlayer().getSummonerName().equals(playerName))
 				{
 					logger.debug(playerName + " found!");
 					playerFound = true;
-					for (Participant participant : participants)
+					for (Participant participant : match.getParticipants())
 					{
 						if (participant.getParticipantId() == participantIdentity.getParticipantId())
 						{
@@ -146,5 +146,19 @@ public class TeamMatchRetriever
 		}
 
 		return true;
+	}
+
+	public static Participant getPlayerParticipantInfo(String playerName, Match match)
+	{
+		for (ParticipantIdentity participantIdentity : match.getParticipantIdentities())
+			if (participantIdentity.getPlayer().getSummonerName().equals(playerName))
+			{
+				logger.debug(playerName + " found!");
+				for (Participant participant : match.getParticipants())
+					if (participant.getParticipantId() == participantIdentity.getParticipantId())
+						return participant;
+			}
+
+		return null;
 	}
 }

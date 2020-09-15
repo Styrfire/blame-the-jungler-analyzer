@@ -1,9 +1,18 @@
+# sqlite datasource info
+riot.datasource:
+  dataSourceName: 'riotdbappid'
+  driverClassName: 'org.sqlite.JDBC'
+  username: ''
+  password: ''
+  url: 'jdbc:sqlite:C:/Users/g_n_r/Desktop/Riot SQLite Database/sqlite/riotstaticdatadb.db'
+
 #400 = draft pick
 #420 = ranked solo/duo
 #440 = ranked flex
-queue: 400
+#700 = clash
+queue: 440
 
 # comment out or set to -1 to grab data from beginning of season
-timestamp.numOfWeeks: 6
+timestamp.numOfWeeks: 8
 
 logging.level.root: INFO #DEBUG
